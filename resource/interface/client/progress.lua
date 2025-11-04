@@ -266,7 +266,7 @@ AddStateBagChangeHandler('lib:progressProps', nil, function(bagName, key, value,
         local prop = createProp(ped, value)
 
         if prop then
-            playerProps[#playerProps + 1] = createProp(ped, value)
+            playerProps[#playerProps + 1] = prop
         end
     else
         local propCount = math.min(maxProps, #value)
