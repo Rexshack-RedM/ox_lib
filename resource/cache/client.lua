@@ -34,6 +34,7 @@ CreateThread(function()
 		if ped ~= 0 then
 			cache:set('ped', ped)
 
+			local onMount = cache.game == 'redm' and IsPedOnMount(ped) or false
 			local vehicle = GetVehiclePedIsIn(ped, false)
 
 			if vehicle > 0 then
@@ -53,13 +54,20 @@ CreateThread(function()
 				end
 			else
 				cache:set('vehicle', false)
-				cache:set('seat', false)
+
+				if not onMount then
+					cache:set('seat', false)
+				end
 			end
 
 			if cache.game == 'redm' then
 				local mount = GetMount(ped)
-				local onMount = IsPedOnMount(ped)
 				cache:set('mount', onMount and mount or false)
+
+				if onMount then
+					local mountSeat = GetSeatPedIsUsing(ped)
+					cache:set('seat', mountSeat)
+				end
 			end
 
 			local hasWeapon, currentWeapon = GetCurrentPedWeapon(ped, true)
